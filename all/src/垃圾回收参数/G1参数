@@ -1,0 +1,36 @@
+垃圾回收参数设置
+
+G1常用参数
+#  JDK 9开始为默认垃圾回收器
+-XX:+UseG1GC
+
+# 响应时间优先，建议值，设置最大GC停顿时间(GC pause time)指标(target). 这是一个软性指标(soft goal)
+#  JVM 会尽力去达成这个目标. 所以有时候这个目标并不能达成
+# G1会尝试调整Young区的块数来达到这个值
+-XX:MaxGCPauseMillis
+# 响应时间优先，GC的停顿间隔时间，默认0
+-XX:GCPauseIntervalMillis
+# 吞吐量优先，设置JVM吞吐量要达到的目标值， GC时间占用程序运行时间的百分比的差值，默认是 99
+# 也就应用程序线程应该运行至少99%的总执行时间，GC占 1%
+-XX:GCTimeRatio=99
+
+# 并发回收器（STW   YGC）的工作线程数量，默认CPU所支持的线程数，如果CPU所支持的线程数大于8，则 默认 8 + (logical_processor -8)*(5/8)
+-XX:ParallelGCThreads
+# G1 并发标记线程数量
+-XX:ConcGCThreads
+
+# 启动并发GC时的堆内存占用百分比. G1用它来触发并发GC周期,基于整个堆的使用率,而不只是某一代内存的使用比例。默认45%
+# 当堆存活对象占用堆的45%，就会启动G1 中Mixed GC
+-XX:InitiatingHeapOccupancyPercent
+# G1 分区大小，建议逐渐增大该值，1 2 4 8 16 32。
+# 随着size增加，垃圾的存活时间更长，GC间隔更长，但每次GC的时间也会更长。ZGC做了改进（动态区块大小）
+-XX:G1HeapRegionSize
+
+# 新生代最小比例，默认为5%
+# -XX:G1NewSizePercent （JDK8u23已经移除 https://www.oracle.com/technical-resources/articles/java/g1gc.html）
+# 新生代最大比例，默认为60%
+# -XX:G1MaxNewSizePercent （JDK823已经移除 https://www.oracle.com/technical-resources/articles/java/g1gc.html）
+# G1 新生代初始大小，默认为5%
+-XX:NewSize
+# G1 新生代最大大小
+-XX:MaxNewSize

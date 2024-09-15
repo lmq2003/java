@@ -1,0 +1,29 @@
+垃圾回收参数设置
+
+CMS常用参数
+## 新生代 ParNew + 老年代 CMS + 老年代 Serial Old
+# 某些版本的参数是这样的： -XX:+UseConcurrentMarkSweepGC
+-XX:+UseConcMarkSweepGC
+
+# 响应时间优先，停顿时间，是一个建议时间，GC会尝试用各种手段达到这个时间，比如减小年轻代，默认 18446744073709551615  
+-XX:MaxGCPauseMillis
+# 吞吐量优先，设置JVM吞吐量要达到的目标值， GC时间占用程序运行时间的百分比的差值，默认是 99
+# 也就应用程序线程应该运行至少99%的总执行时间，GC占 1%
+-XX:GCTimeRatio=99
+
+# 并行收集器（ParNew , STW,  YGC）的线程数，默认CPU所支持的线程数，如果CPU所支持的线程数大于8，则 默认 8 + (logical_processor -8)*(5/8)
+-XX:+ParallelGCThreads
+#  CMS垃圾回收线程数量
+-XX:ParallelCMSThreads
+
+# 解决 CMS `Memory Fragmentation` 碎片化， 开启FGC时进行压缩，以及多少次FGC之后进行压缩
+-XX:+UseCMSCompactAtFullCollection
+-XX:CMSFullGCsBeforeCompaction=3
+# 解决 CMS `Concurrent mode failure` ，`Promotion Failed`晋升失败  
+# 使用多少比例的老年代后开始CMS收集，默认是68%(近似值)，如果频繁发生SerialOld卡顿，应该调小，（频繁CMS回收）
+-XX:+UseCMSInitiatingOccupancyOnly
+-XX:CMSInitiatingOccupancyFraction=70
+
+# 开启 CMS 元空间的垃圾回收
+-XX:+CMSClassUnloadingEnabled
+# -XX:CMSInitiatingPermOccupancyFraction  （JDK8已经移除）

@@ -1,0 +1,18 @@
+垃圾回收参数设置
+
+Parallel常用参数
+
+# 新生代 ParallelScavenge + 老年代 ParallelOld  (JDK7,  JDK8 为默认垃圾回收器)
+-XX:+UseParallelGC
+# 新生代 ParallelScavenge + 老年代 ParallelOld, 同上
+-XX:+UseParallelOldGC
+
+# 并行收集器的线程数，同样适用于CMS G1，默认CPU所支持的线程数，如果CPU所支持的线程数大于8，则 默认 8 + (logical_processor -8)*(5/8)
+-XX:+ParallelGCThreads
+# 大对象到底多大 （仅适用于 DefNew / ParNew ） https://bugs.openjdk.java.net/browse/JDK-8050209
+-XX:PreTenureSizeThreshold
+# 年轻代Survivor区比率，默认是8 （表示 Eden : From : To 为 8 ：1 ：1）
+-XX:SurvivorRatio
+
+# 自动选择各区大小比例
+-XX:+UseAdaptiveSizePolicy

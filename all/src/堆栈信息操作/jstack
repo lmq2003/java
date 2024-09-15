@@ -1,0 +1,21 @@
+jstack是JVM自带的Java堆栈跟踪工具，它用于打印出给定的java进程ID、core file、远程调试服务的Java堆栈信息.
+
+jstack命令格式如下：
+jstack [ option ] pid
+jstack [ option ] executable core
+jstack [ option ] [server-id@]remote-hostname-or-IP
+
+executable Java executable from which the core dump was produced.(可能是产生core dump的java可执行程序)
+core 将被打印信息的core dump文件
+remote-hostname-or-IP 远程debug服务的主机名或ip
+server-id 唯一id,假如一台主机上多个远程debug服务
+
+
+-F参数
+如果Java虚拟机进程由于进程挂起而没有任何响应，那么可以使用-F参数（仅在Oracle Solaris和Linux操作系统上游戏）强制显示线程快照信息。
+
+-l参数
+如果使用-l参数，除了方法栈帧以外，jstack命令还会显示关于锁的附加信息，比如属于java.util.concurrent的ownable synchronizers列表。
+
+-m参数
+如果使用-m参数，jstack命令将显示混合的栈帧信息，除了Java方法栈帧以外，还有本地方法栈帧。本地方法栈帧是C或C++编写的虚拟机代码或JNI/native代码。

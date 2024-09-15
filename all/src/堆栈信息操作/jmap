@@ -1,0 +1,24 @@
+jmap命令是一个可以输出所有内存中对象的工具，甚至可以将VM 中的heap，以二进制输出成文本。
+打印出某个java进程（使用pid）内存内的，所有‘对象’的情况（如：产生那些对象，及其数量）。
+
+64位机上使用需要使用如下方式：
+jmap -J-d64 -heap pid
+
+命令格式
+ jmap [option] <pid>
+        (to connect to running process) 连接到正在运行的进程
+
+    jmap [option] <executable <core>
+        (to connect to a core file)     连接到核心文件
+
+    jmap [option] [server_id@]<remote server IP or hostname>
+        (to connect to remote debug server) 连接到远程调试服务
+
+
+参数说明
+ pid:    目标进程的PID，进程编号，可以采用ps -ef | grep java 查看java进程的PID;
+>    executable:     产生core dump的java可执行程序;
+>    core:     将被打印信息的core dump文件;
+>    remote-hostname-or-IP:     远程debug服务的主机名或ip;
+>    server-id:     唯一id,假如一台主机上多个远程debug服务;
+

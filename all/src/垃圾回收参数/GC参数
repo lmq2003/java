@@ -1,0 +1,40 @@
+垃圾回收参数设置
+
+GC常用参数
+# 年轻代 最小堆 最大堆 栈空间
+-Xmn -Xms -Xmx -Xss
+# System.gc()不管用 ，避免因System.gc()调用导致的FGC，生产环境建议
+-XX:+DisableExplictGC
+# 年轻代存活对象升代年龄，最大值15 （CMS 默认是6， Parallel, G1 默认15）
+-XX:MaxTenuringThreshold
+
+GC日志参数
+# 生产环境一般再额外增加GC日志参数，OOME HeapDump 参数
+-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/path/to/dir/
+-Xloggc:/path/to/log/dir/gc-%t.log  -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCCause
+
+其他参数
+## TLAB的参数，一般不需要调整
+# 使用TLAB，默认打开
+-XX:+UseTLAB
+# 打印TLAB的使用情况
+-XX:+PrintTLAB
+# 设置TLAB大小  
+-XX:TLABSize
+
+# 打印类加载详细过程
+-verbose:class
+# 打印 VM 参数
+-XX:+PrintVMOptions
+# 打印最终参数值
+-XX:+PrintFlagsFinal 
+# 打印默认参数值
+-XX:+PrintFlagsInitial
+
+#  以下不建议生产环境设置
+# 锁自旋次数 
+-XX:PreBlockSpin 
+# 热点代码检测参数
+-XX:CompileThreshold
+
+
